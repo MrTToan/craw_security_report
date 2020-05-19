@@ -50,23 +50,22 @@ class JokeSpider(scrapy.Spider):
             report_detail_url = (
                 self.detail_url
                 + "bcbaocaoid="
-                + meta_dict['report_number'][0]
+                + meta_dict["report_number"][0]
                 + "&kyBaoCao="
-                + meta_dict['period_number'][0]
+                + meta_dict["period_number"][0]
             )
 
-            
             report_detail_bcdkt_sheet = crawl(report_detail_url, 0)
             report_detail_kqkd_sheet = crawl(report_detail_url, 1)
-            temp_df = pd.concat([sub_df, report_detail_bcdkt_sheet, report_detail_kqkd_sheet], axis=1)
+            temp_df = pd.concat(
+                [sub_df, report_detail_bcdkt_sheet, report_detail_kqkd_sheet], axis=1
+            )
             self.df.append(temp_df)
-    
+
         final_df = pd.concat(self.df).set_index("id")
-        final_df.to_csv('abc.csv')
+        final_df.to_csv("abc.csv")
 
         # if self.next_page < 2:
         #     self.next_page += 1
         #     next_page_link = self.start_urls[0] + "cpage=" + str(self.next_page)
         #     yield scrapy.Request(url=next_page_link, callback=self.parse)
-
-
